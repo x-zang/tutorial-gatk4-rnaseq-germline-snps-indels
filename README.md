@@ -19,7 +19,7 @@ mkdir gatk-workflows
 cd gatk-workflows
 ```
 
-Download the latest releases of the workflow from [here](https://github.com/gatk-workflows/gatk4-rnaseq-germline-snps-indels/archive/1.0.0.tar.gz).
+Download the latest releases of the workflow from [here](https://github.com/gatk-workflows/gatk4-rnaseq-germline-snps-indels/releases).
 
 ```
 # replace the following link with the latest release
