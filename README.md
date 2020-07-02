@@ -1,23 +1,21 @@
 # Tutorial: RNA-seq short variant calling using GATK
 
+GATK is powerful. However, running it may not be as easy. People, especially bioinformatics beginners are often overwhelmed by its powerfulness and complexity. 
 
+This repo is a tutorial of the workflow for RNA-seq short variant calling (SNPs & indels) using GATK4. The original workflow is available at [gatk-workflows](https://github.com/gatk-workflows)/**[gatk4-rnaseq-germline-snps-indels](https://github.com/gatk-workflows/gatk4-rnaseq-germline-snps-indels)**, developed by the GATK Team.  This repo is made for my personal interest and record to make it easier to run GATK workflow. Root is not required if this tutorial is followed. The tutorial is made based on the [GATK4 workflow repo](https://github.com/gatk-workflows/gatk4-rnaseq-germline-snps-indels), [its best practice](https://gatk.broadinstitute.org/hc/en-us/articles/360035531192-RNAseq-short-variant-discovery-SNPs-Indels-), and the tutorial on [how to run GATK workflow](https://gatk.broadinstitute.org/hc/en-us/articles/360035530952?id=12521). 
 
-This repo is a tutorial of the workflow for RNA-seq short variant calling (SNPs & indels) using GATK4. The workflow is available at [gatk-workflows](https://github.com/gatk-workflows)/**[gatk4-rnaseq-germline-snps-indels](https://github.com/gatk-workflows/gatk4-rnaseq-germline-snps-indels)**, developed by the GATK Team.  This repo is made for my personal interest and record to make it easier to run GATK workflow. Root is not required if this tutorial is followed.
+Note: This is for GATK4 and may not be compatible with GATK3.8.
 
-The tutorial is made based on the [GATK4 workflow repo](https://github.com/gatk-workflows/gatk4-rnaseq-germline-snps-indels), [its best practice](https://gatk.broadinstitute.org/hc/en-us/articles/360035531192-RNAseq-short-variant-discovery-SNPs-Indels-), and the tutorial on [how to run GATK workflow](https://gatk.broadinstitute.org/hc/en-us/articles/360035530952?id=12521). 
-
-**Last updated: Jun 2020.**
+**Last updated: Jul 2, 2020.**
 
 # Install GATK4
 
-Download latest release (https://github.com/broadinstitute/gatk/releases)
+Download latest release from GATK4 repository https://github.com/broadinstitute/gatk/releases
 
 ```
 wget https://github.com/broadinstitute/gatk/releases/download/4.1.7.0/gatk-4.1.7.0.zip
 unzip gatk-4.1.7.0.zip
 ```
-
-
 
 
 
@@ -41,7 +39,7 @@ Also, have STAR and samtools installed in this environment.
 
 This is a convenient way of installing required dependencies of GATK. Sometimes it doesn't work, e.g. conflicts. In case of conda not working, manually install the packages described in this file with conda and pip.
 
-
+# Install Docker without root
 
 Docker is need to run GATK4 workflow. Root is needed, but you can also [install from binary](https://docs.docker.com/engine/install/binaries/) and [run docker daemon without sudo](https://docs.docker.com/engine/security/rootless/).
 
