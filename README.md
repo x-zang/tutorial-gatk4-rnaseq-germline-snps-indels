@@ -12,7 +12,7 @@ Note: This is for GATK4 and may not be compatible with GATK3.8.
 
 Download latest release from GATK4 repository https://github.com/broadinstitute/gatk/releases
 
-```
+```sh
 wget https://github.com/broadinstitute/gatk/releases/download/4.1.7.0/gatk-4.1.7.0.zip
 unzip gatk-4.1.7.0.zip
 ```
@@ -23,7 +23,7 @@ unzip gatk-4.1.7.0.zip
 
 Create a conda environment to install GATK dependencies.
 
-```
+```shell
 # creat a conda environment
 conda env create -n gatk -f gatkcondaenv.yml
 # or 
@@ -39,23 +39,27 @@ Also, have STAR and samtools installed in this environment.
 
 This is a convenient way of installing required dependencies of GATK. Sometimes it doesn't work, e.g. conflicts. In case of conda not working, manually install the packages described in this file with conda and pip.
 
-# Install Docker without root
+# Run Docker without root
 
-Docker is need to run GATK4 workflow. Root is needed, but you can also [install from binary](https://docs.docker.com/engine/install/binaries/) and [run docker daemon without sudo](https://docs.docker.com/engine/security/rootless/).
+Docker is required to run GATK4 workflow. Root is needed, but you can also [run docker daemon without sudo](https://docs.docker.com/engine/security/rootless/).
 
-Download a binary from https://download.docker.com/linux/static/stable/ 
-
-```
-tar xzvf FILE.tar.gz
-# copy the executable files to a PATH directory, so that they can be called without specifying 
-cp docker/* /usr/bin/
-
+```sh
 curl -fsSL https://get.docker.com/rootless | sh
 export PATH=/home/testuser/bin:$PATH
 export PATH=$PATH:/sbin
 export DOCKER_HOST=unix:///run/user/1001/docker.sock
 
-systemctl --user start docker
+# Then I can start/stop/restart docker without root using the following
+systemctl --user (start|stop|restart) docker
+```
+
+When running docker, I found it uses `$home/.local/share` as the root dir. As this directory is in my `$home`, which is limited in space. I changed docker root dir using [this](https://medium.com/@hsadanuwan/how-to-change-docker-default-data-directory-f884dac76c1f), otherwise the disk can be full quickly and process fails for me.
+
+```shell
+docker info  
+locate docker.service
+systemctl --user daemon-reload
+systemctl --user (start|stop|restart) docker
 ```
 
 
@@ -64,14 +68,14 @@ systemctl --user start docker
 
 Set up the working directory.
 
-```
+```shell
 mkdir gatk-workflows
 cd gatk-workflows
 ```
 
 Download the latest releases of the workflow from [here](https://github.com/gatk-workflows/gatk4-rnaseq-germline-snps-indels/releases).
 
-```
+```shell
 # replace the following link with the latest release
 wget https://github.com/gatk-workflows/gatk4-rnaseq-germline-snps-indels/archive/1.0.0.tar.gz 
 # change the .tar.gz file name if needed
@@ -80,8 +84,8 @@ tar -zxvf 1.0.0.tar.gz
 
 Download the [cromwell](https://github.com/broadinstitute/cromwell/releases) program which will execute the GATK4 workflow.
 
-```
-wget https://github.com/broadinstitute/cromwell/releases/download/33.1/cromwell-33.1.jar
+```shell
+wget https://github.com/broadinstitute/cromwell/releases/download/51/cromwell-51.jar
 ```
 
 
@@ -90,13 +94,13 @@ wget https://github.com/broadinstitute/cromwell/releases/download/33.1/cromwell-
 
 Set up inputs directory, and put all necessary input files in this directory .
 
-```
+```shell
 mkdir inputs
 ```
 
 Download necessary file from Google Cloud Bucket of Broad Institute https://console.cloud.google.com/storage/browser/gcp-public-data--broad-references/ using browser or [gsutil](https://cloud.google.com/storage/docs/gsutil_install#linux).
 
-```
+```shell
 # This is an example of how to download with gsutil
 gsutil -m cp gs://gcp-public-data--broad-references/hg38/v0/Homo_sapiens_assembly38.dbsnp138.vcf ./inputs/
 ```
@@ -107,8 +111,8 @@ Then modify the json file to replace the file/paths with your local files.
 
 # Execute the workflow
 
-```
-java -jar cromwell-33.1.jar run gatk4-rnaseq-germline-snps-indels-1.0.0/gatk4-rna-best-practices.wdl --inputs gatk4-rnaseq-germline-snps-indels-1.0.0/gatk4-rna-germline-variant-calling.inputs.json
+```shell
+java -jar cromwell-51.jar run gatk4-rnaseq-germline-snps-indels-1.0.0/gatk4-rna-best-practices.wdl --inputs gatk4-rnaseq-germline-snps-indels-1.0.0/gatk4-rna-germline-variant-calling.inputs.json
 ```
 
 
