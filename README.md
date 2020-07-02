@@ -37,9 +37,7 @@ conda activate ./path/to/directory/
 
 ```
 
-```
-
-```
+Also, have STAR and samtools installed in this environment.
 
 This is a convenient way of installing required dependencies of GATK. Sometimes it doesn't work, e.g. conflicts. In case of conda not working, manually install the packages described in this file with conda and pip.
 
