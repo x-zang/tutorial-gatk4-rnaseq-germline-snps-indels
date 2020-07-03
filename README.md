@@ -139,11 +139,11 @@ Search `BedToIntervalList ` in the `gatk4-rna-best-practices.wdl` file. You can 
 
 This looks more like GATK3.8 commands but not GATK4, so I deleted the `=` sign behind `-I`, `-O`, `-SD` arguments. Then this block of code looks like:
 
-        ${gatk_path} \
-            BedToIntervalList \
-            -I exome.fixed.bed \
-            -O ${output_name} \
-            -SD ${ref_dict}
+            ${gatk_path} \
+                BedToIntervalList \
+                -I exome.fixed.bed \
+                -O ${output_name} \
+                -SD ${ref_dict}
 
 
 # Execute the workflow
