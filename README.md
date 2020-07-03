@@ -59,7 +59,7 @@ systemctl --user (start|stop|restart) docker
 
 ### Change docker root directory
 
-When running docker, I found it uses `$home/.local/share` as the root dir. As this directory is in my `$home`, which is limited in space. I changed docker root dir follwoing [this](https://medium.com/@hsadanuwan/how-to-change-docker-default-data-directory-f884dac76c1f), otherwise for my case, the disk can be full quickly and process fails.
+When running docker, I found it uses `$home/.local/share` as the root dir. As this directory is in my `$home`, which is limited in space. I changed docker root dir following [this](https://medium.com/@hsadanuwan/how-to-change-docker-default-data-directory-f884dac76c1f), otherwise for my case, the disk can be full quickly and process fails.
 
 Run `docker info  `. The line starting with `Docker Root Dir` states the root directory of docker. I intend to change it to another directory in the disk.
 
@@ -110,22 +110,49 @@ Set up inputs directory, and put all necessary input files in this directory .
 mkdir inputs
 ```
 
-Download necessary file from Google Cloud Bucket of Broad Institute https://console.cloud.google.com/storage/browser/gcp-public-data--broad-references/ using browser or [gsutil](https://cloud.google.com/storage/docs/gsutil_install#linux).
+Download necessary file from Google Cloud Bucket of Broad Institute https://console.cloud.google.com/storage/browser/gcp-public-data--broad-references/ using browser or [gsutil](https://cloud.google.com/storage/docs/gsutil_install#linux). Most of the required references and databases can be found there.
 
 ```shell
 # This is an example of how to download with gsutil
 gsutil -m cp gs://gcp-public-data--broad-references/hg38/v0/Homo_sapiens_assembly38.dbsnp138.vcf ./inputs/
 ```
 
-Then modify the json file to replace the file/paths with your local files.
+
+
+The input file format for GATK is **unmapped bam**. GATK `FastqToSam` can be used to convert fastq to unmapped bam.
+
+```shell
+gatk FastqToSam \
+-F1 reads_R1.fastq \
+-F2 reads_R2.fastq \
+-O reads.unmapped.bam \
+--SAMPLE_NAME sample001
+```
+
+Index and dictionary files (.fai/.dict/.idx) can be generated with samtools and igvtools
+
+```shell
+samtools faidx Homo_sapiens_assembly38.genome.fasta
+samtools dict Homo_sapiens_assembly38.genome.fasta -o Homo_sapiens_assembly38.genome.fasta.dict 
+igvtools index file.vcf 
+```
 
 
 
+**Then modify the `.json` file (in the GATK workflow directory `gatk4-rnaseq-germline-snps-indels`) to replace the corresponding file/paths with your local files.**
+
+Also replace the GATK path in the `.json` file with the directory where GATK4 is installed.  
+
+```wdl
+  "##_COMMENT5": "PATHS",
+  "#RNAseq.gatk_path_override": "/path/to/gatk4",
+```
 
 
-**Edit `gatk4-rna-best-practices.wdl` file**
 
-This step may not be necessary but it worked for me. 
+#### **Edit `gatk4-rna-best-practices.wdl` file**
+
+I'm not sure if this step is necessary or correct, but it worked for me. 
 
 Search `BedToIntervalList ` in the `gatk4-rna-best-practices.wdl` file. You can see a block of code like the following.
 
@@ -137,7 +164,7 @@ Search `BedToIntervalList ` in the `gatk4-rna-best-practices.wdl` file. You can 
             -SD=${ref_dict}
 ```
 
-This looks more like GATK3.8 commands but not GATK4, so I deleted the `=` sign behind `-I`, `-O`, `-SD` arguments. Then this block of code looks like:
+This section looks more like GATK3.8 commands but not GATK4's, so I deleted the `=` sign behind `-I`, `-O`, `-SD` arguments. Then this block of code looks like:
 
             ${gatk_path} \
                 BedToIntervalList \
@@ -146,12 +173,14 @@ This looks more like GATK3.8 commands but not GATK4, so I deleted the `=` sign b
                 -SD ${ref_dict}
 
 
+
 # Execute the workflow
 
 Everything should be all set so far. Download the [cromwell](https://github.com/broadinstitute/cromwell/releases) program which will execute the GATK4 workflow.
 
 ```shell
 wget https://github.com/broadinstitute/cromwell/releases/download/51/cromwell-51.jar
+
 # execute GATK4 workflow
 java -jar cromwell-51.jar run gatk4-rnaseq-germline-snps-indels-1.0.0/gatk4-rna-best-practices.wdl --inputs gatk4-rnaseq-germline-snps-indels-1.0.0/gatk4-rna-germline-variant-calling.inputs.json
 ```
