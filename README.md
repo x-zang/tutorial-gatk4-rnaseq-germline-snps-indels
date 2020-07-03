@@ -134,7 +134,7 @@ Index and dictionary files (.fai/.dict/.idx) can be generated with samtools and 
 
 ```shell
 samtools faidx Homo_sapiens_assembly38.genome.fasta
-samtools dict Homo_sapiens_assembly38.genome.fasta -o Homo_sapiens_assembly38.genome.fasta.dict 
+samtools dict Homo_sapiens_assembly38.genome.fasta -o Homo_sapiens_assembly38.genome.dict 
 igvtools index file.vcf 
 ```
 
