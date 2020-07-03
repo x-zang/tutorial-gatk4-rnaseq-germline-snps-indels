@@ -173,6 +173,20 @@ This section looks more like GATK3.8 commands but not GATK4's, so I deleted the 
                 -O ${output_name} \
                 -SD ${ref_dict}
 
+Do the same to the `IntervalListTools` code block. They should be like below after editing.
+
+````
+        ${gatk_path} --java-options "-Xms1g" \
+            IntervalListTools \
+            --SCATTER_COUNT ${scatter_count} \
+            --SUBDIVISION_MODE BALANCING_WITHOUT_INTERVAL_SUBDIVISION_WITH_OVERFLOW \
+            --UNIQUE true \
+            --SORT true \
+            --INPUT ${interval_list} \
+            --OUTPUT out
+
+````
+
 
 
 # Execute the workflow
