@@ -12,7 +12,7 @@ Note: This is for GATK4 and may not be compatible with GATK3.8.
 
 # Install GATK4
 
-**Download latest release** from GATK4 repository https://github.com/broadinstitute/gatk/releases. Downloading the pre-compiled binary file is the easiest installation. Requirements for GATK4 can be found form https://github.com/broadinstitute/gatk.
+**Download the latest release** from GATK4 repository https://github.com/broadinstitute/gatk/releases. Downloading the pre-compiled binary file is the easiest installation. Requirements for GATK4 can be found form https://github.com/broadinstitute/gatk.
 
 ```sh
 wget https://github.com/broadinstitute/gatk/releases/download/4.1.8.0/gatk-4.1.8.0.zip
@@ -21,10 +21,10 @@ unzip gatk-4.1.8.0.zip
 
 
 
-**Install conda environment for GATK**. In [this page](https://gatk.broadinstitute.org/hc/en-us/articles/360035889851--How-to-Install-and-use-Conda-for-GATK4), it is stated that the bioconda GATK installation does not configure the environment correctly. Then, it is necessary to manually create a conda environment and install GATK dependencies.
+**Install conda environment for GATK**. On [this page](https://gatk.broadinstitute.org/hc/en-us/articles/360035889851--How-to-Install-and-use-Conda-for-GATK4), it is stated that the bioconda GATK installation does not configure the environment correctly. Then, it is necessary to manually create a conda environment and install GATK dependencies.
 
 ```shell
-# creat a conda environment
+# create a conda environment
 conda env create -n gatk -f gatkcondaenv.yml
 # or 
 conda env create --prefix ./path/to/directory/ -f gatkcondaenv.yml
@@ -59,7 +59,7 @@ systemctl --user (start|stop|restart) docker
 
 ### Change docker root directory
 
-When running docker, I found it uses `$home/.local/share` as the root dir. As this directory is in my `$home`, which is limited in space. I changed docker root dir following [this](https://medium.com/@hsadanuwan/how-to-change-docker-default-data-directory-f884dac76c1f), otherwise for my case, the disk can be full quickly and process fails.
+When running docker, I found it uses `$home/.local/share` as the root dir. This directory is in my `$home`, which is limited in space. I changed docker root dir following [this](https://medium.com/@hsadanuwan/how-to-change-docker-default-data-directory-f884dac76c1f), otherwise for my case, the disk can be full quickly and the process fails.
 
 Run `docker info  `. The line starting with `Docker Root Dir` states the root directory of docker. I intend to change it to another directory in the disk.
 
@@ -68,7 +68,7 @@ Run `docker info  `. The line starting with `Docker Root Dir` states the root di
 locate docker.service
 ```
 
-Edit`docker.service` file. Find the `ExecStart` and add `-g /customized/root/dir` to the end of this line. 
+Edit `docker.service` file. Find the `ExecStart` and add `-g /customized/root/dir` to the end of this line. 
 
 Now for me, this line looks like `ExecStart=/home/userid/bin/dockerd-rootless.sh --experimental --storage-driver=overlay2 -g /disk/userid/tools/docker-tmp`
 
@@ -104,7 +104,7 @@ tar -zxvf 1.0.0.tar.gz
 
 # Prepare input files
 
-Set up inputs directory, and put all necessary input files in this directory .
+Set up inputs directory, and put all necessary input files in this directory.
 
 ```shell
 mkdir inputs
