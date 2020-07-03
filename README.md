@@ -17,6 +17,7 @@ Note: This is for GATK4 and may not be compatible with GATK3.8.
 ```sh
 wget https://github.com/broadinstitute/gatk/releases/download/4.1.8.0/gatk-4.1.8.0.zip
 unzip gatk-4.1.8.0.zip
+cd gatk-4.1.8.0
 ```
 
 
@@ -61,14 +62,14 @@ systemctl --user (start|stop|restart) docker
 
 When running docker, I found it uses `$home/.local/share` as the root dir. This directory is in my `$home`, which is limited in space. I changed docker root dir following [this](https://medium.com/@hsadanuwan/how-to-change-docker-default-data-directory-f884dac76c1f), otherwise for my case, the disk can be full quickly and the process fails.
 
-Run `docker info  `. The line starting with `Docker Root Dir` states the root directory of docker. I intend to change it to another directory in the disk.
+Run `docker info`. The line starting with `Docker Root Dir` states the root directory of docker. I intend to change it to another directory in the disk. It can be configured by editing `docker.service` file.
 
 ```shell
 # find the docker.service file
 locate docker.service
 ```
 
-Edit `docker.service` file. Find the `ExecStart` and add `-g /customized/root/dir` to the end of this line. 
+Edit `docker.service` file. Find the `ExecStart` line and add `-g /customized/root/dir` to the end of this line. 
 
 Now for me, this line looks like `ExecStart=/home/userid/bin/dockerd-rootless.sh --experimental --storage-driver=overlay2 -g /disk/userid/tools/docker-tmp`
 
@@ -139,11 +140,11 @@ igvtools index file.vcf
 
 
 
-**Then modify the `.json` file (in the GATK workflow directory `gatk4-rnaseq-germline-snps-indels`) to replace the corresponding file/paths with your local files.**
+**Then edit the `.json` file (in the GATK workflow directory `gatk4-rnaseq-germline-snps-indels`) to replace the corresponding file paths with your local file paths.**
 
 Also replace the GATK path in the `.json` file with the directory where GATK4 is installed.  
 
-```wdl
+```
   "##_COMMENT5": "PATHS",
   "#RNAseq.gatk_path_override": "/path/to/gatk4",
 ```
@@ -156,7 +157,7 @@ I'm not sure if this step is necessary or correct, but it worked for me.
 
 Search `BedToIntervalList ` in the `gatk4-rna-best-practices.wdl` file. You can see a block of code like the following.
 
-```task gtfToCallingIntervals {
+```
         ${gatk_path} \
             BedToIntervalList \
             -I=exome.fixed.bed \
@@ -176,7 +177,7 @@ This section looks more like GATK3.8 commands but not GATK4's, so I deleted the 
 
 # Execute the workflow
 
-Everything should be all set so far. Download the [cromwell](https://github.com/broadinstitute/cromwell/releases) program which will execute the GATK4 workflow.
+Everything should be all set so far. Download the [cromwell](https://github.com/broadinstitute/cromwell/releases) program which will execute the GATK4 workflow. `cd` to the `gatk-workflows` directory.
 
 ```shell
 wget https://github.com/broadinstitute/cromwell/releases/download/51/cromwell-51.jar
@@ -191,6 +192,10 @@ java -jar cromwell-51.jar run gatk4-rnaseq-germline-snps-indels-1.0.0/gatk4-rna-
 
 # References
 
-[1]:https://github.com/gatk-workflows/gatk4-rnaseq-germline-snps-indels
-[2]: https://gatk.broadinstitute.org/hc/en-us/articles/360035531192-RNAseq-short-variant-discovery-SNPs-Indels-
-[3]:https://gatk.broadinstitute.org/hc/en-us/articles/360035530952?id=12521
+https://github.com/gatk-workflows/gatk4-rnaseq-germline-snps-indels
+
+https://gatk.broadinstitute.org/hc/en-us/articles/360035531192-RNAseq-short-variant-discovery-SNPs-Indels-
+
+https://gatk.broadinstitute.org/hc/en-us/articles/360035530952?id=12521
+
+https://docs.docker.com/engine/security/rootless/
