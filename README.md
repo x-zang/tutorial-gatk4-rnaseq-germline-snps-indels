@@ -111,7 +111,7 @@ Set up inputs directory, and put all necessary input files in this directory.
 mkdir inputs
 ```
 
-Download necessary file from Google Cloud Bucket of Broad Institute https://console.cloud.google.com/storage/browser/gcp-public-data--broad-references/ using browser or [gsutil](https://cloud.google.com/storage/docs/gsutil_install#linux). Most of the required references and databases can be found there. Make sure all of the files uses either one of GRCH38 names or hg38 names.
+Download necessary file from Google Cloud Bucket of Broad Institute https://console.cloud.google.com/storage/browser/gcp-public-data--broad-references/ using browser or [gsutil](https://cloud.google.com/storage/docs/gsutil_install#linux). Most of the required references and databases can be found there. Make sure all of the files uses either one of UCSC names or Ensembl names.
 
 ```shell
 # This is an example of how to download with gsutil
