@@ -153,7 +153,7 @@ Also replace the GATK path in the `.json` file with the directory where GATK4 is
 
 #### **Edit `gatk4-rna-best-practices.wdl` file**
 
-I'm not sure if this step is necessary or correct, but it worked for me (version `gatk4-rnaseq-germline-snps-indels-1.0.0`). 
+I'm not sure if this step is necessary or correct, but it worked for me (version `gatk4-rnaseq-germline-snps-indels-1.0.0`).  Read the following instructions, or directly replace the original one with my edited `.wdl` (version 1.0.0,  see [this](https://github.com/x-zang/gatk4-rnaseq-germline-snps-indels/blob/master/gatk4-rna-best-practices.wdl)).
 
 Search `BedToIntervalList ` in the `gatk4-rna-best-practices.wdl` file. You can see a block of code like the following.
 
