@@ -127,8 +127,14 @@ gatk FastqToSam \
 -F1 reads_R1.fastq \
 -F2 reads_R2.fastq \
 -O reads.unmapped.bam \
---SAMPLE_NAME sample001
+--SAMPLE_NAME sample001 \
+--PLATFORM ILLUMINA \
+--READ_GROUP_NAME group01 \
+--SORT_ORDER unsorted 
+# --SORT_ORDER {unsorted, queryname, coordinate, duplicate, unknown}
 ```
+
+
 
 Index and dictionary files (.fai/.dict/.idx) can be generated with samtools and igvtools
 
