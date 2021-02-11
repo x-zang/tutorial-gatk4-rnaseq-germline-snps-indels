@@ -43,7 +43,7 @@ This is a convenient way of installing required conda dependencies of GATK. Some
 
 # Run Docker without root
 
-Docker is required to run GATK4 workflow. Root is needed, but you can also [run docker daemon without sudo](https://docs.docker.com/engine/security/rootless/) (see this page for more details).
+Docker is required to run GATK4 workflow. Root is needed, but you can also run docker daemon without sudo ([see docker docs for more details](https://docs.docker.com/engine/security/rootless/)). This section works for Ubuntu. Other OS may have some [prerequisites](https://docs.docker.com/engine/security/rootless/#prerequisites).
 
 ```sh
 curl -fsSL https://get.docker.com/rootless | sh
