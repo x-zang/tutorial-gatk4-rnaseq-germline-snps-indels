@@ -51,11 +51,13 @@ curl -fsSL https://get.docker.com/rootless | sh
 # At the end of the script, some environment variables are required to be set.
 # They would be displayed like the below examples, C&P to run them.
 export DOCKER_HOST=unix:///run/user/1001/docker.sock
+```
+Replace the number in `/run/user/1001/` with your uid, which can be retrieved using `id -u`. For example, if `id -u` outputs `1005`, the command should be `export DOCKER_HOST=unix:///run/user/1005/docker.sock`.
 
+```sh
 # start/stop/restart docker without root using the following
 systemctl --user (start|stop|restart) docker
 ```
-
 
 
 ### Change docker root directory
