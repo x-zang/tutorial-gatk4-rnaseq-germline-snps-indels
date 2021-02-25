@@ -81,7 +81,7 @@ systemctl --user daemon-reload
 systemctl --user restart docker
 ```
 
-Run `docker info  ` again. I can see `Docker Root Dir: /disk/userid/tools/docker-tmp`. Then all's set.
+Run `docker info  ` again. I can see `Docker Root Dir: /disk/userid/tools/docker-tmp`. Then all's set. Some other options can be found [here](https://github.com/IronicBadger/til/blob/master/docker/change-docker-root.md)
 
 
 
